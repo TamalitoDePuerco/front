@@ -1,18 +1,18 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { useState } from 'react'
-import './App.css'
-import Login from './login/login'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import './App.css';
+import Login from './login/login';
+import Menu from './menu/menu';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <main className='bg-red-800 h-screen grid content-center'>
-      <div className='container mx-auto '>
-        <Login/>        
-      </div>
-    </main>
-  )
+    <Router>
+      <Routes>
+        <Route exac path="/" element={<Login />} />
+        <Route exac path="/menu" element={<Menu />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

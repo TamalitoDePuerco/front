@@ -6,6 +6,6 @@ import Menu from './menu/menu'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Menu/>
+    <App/>
   </React.StrictMode>,
 )
