@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";
+import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 
 function Login() {
   const [contrasenaVisible, setContrasenaVisible] = useState(false);
@@ -22,7 +23,7 @@ function Login() {
 
   return (
     <div
-      className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden "
+      className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden"
       style={fondoStyle}
     >
       <div
@@ -34,14 +35,18 @@ function Login() {
           <div className="mb-2 relative">
             <input
               type="email"
-              className="block w-full px-4 py-4 mt-2 bg-white border rounded-2xl"
+              className="block w-full px-12 py-4 pl-10 mt-2 bg-white border rounded-2xl"
+              placeholder="Correo electrónico"
             />
+            <AiOutlineMail className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
           </div>
           <div className="mb-2 relative">
             <input
               type={contrasenaVisible ? "text" : "password"}
-              className="block w-full px-4 py-4 mt-8 bg-white border rounded-2xl pr-14" // Agregamos pl-12 para dar espacio al botón de ver contraseña
+              className="block w-full px-12 py-4 pl-10 mt-8 bg-white border rounded-2xl pr-14"
+              placeholder="Contraseña"
             />
+            <AiOutlineLock className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
