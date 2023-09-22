@@ -67,7 +67,7 @@ function Login() {
 
           <button
             type="button"
-            className="block w-72 px-4 py-4 mt-6 mx-auto bg-red-500 border rounded-3xl"
+            className="block w-72 px-4 py-4 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700"
           >
             Iniciar Sesión
           </button>

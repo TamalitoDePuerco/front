@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import Sidebar from "../components/shared/Siderbar";
 
 function Inventario() {
     return (
-        <h1>Inventario</h1>
+        <div className="bg-[#F8F8F8] w-full min-h-screen">
+            
+        <Sidebar/>
+        </div>
+        
     );
 }
 
