@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";
