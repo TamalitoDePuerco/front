@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Delicious+Handrawn&family=Josefin+Sans&display=swap');
+body {
+    font-family: 'Josefin Sans', sans-serif;
+  }
+  
+  h1 {
+    font-family: 'Josenifin Sans', sans-serif;
+  }
+
+  .dashed-border {
+    border: 3px dashed #9b9898; /* Establece el grosor y el color de las líneas discontinuas */
+    padding: 10px; /* Ajusta el relleno según tus necesidades */
+    border-radius: 15px; /* Agrega bordes redondeados si lo deseas */
+  }
+  

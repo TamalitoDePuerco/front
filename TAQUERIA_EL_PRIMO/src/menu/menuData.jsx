@@ -6,11 +6,11 @@ import carne from "../components/assets/steak.png"
 
 export const menuData = [
     {
-        title: "taco",
+        title: "Taco",
         img: taco,
     },
     {
-        title: "quesadilla",
+        title: "Quesadilla",
         img: quesadilla,
     },
     {
@@ -20,5 +20,20 @@ export const menuData = [
     {
         title: "Carne Asada",
         img: carne,
+    }
+]
+
+export const menuDataB = [
+    {
+        title: "Coca-Cola"
+    },
+    {
+        title: "Agua de Jamaica"
+    },
+    {
+        title: "Agua de Cebada"
+    },
+    {
+        title: "Agua"
     }
 ]
