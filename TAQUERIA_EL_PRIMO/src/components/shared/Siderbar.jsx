@@ -12,15 +12,15 @@ function Sidebar() {
               onClick={() => {
                 window.location.pathname = val.link;
               }}
-              className={`p-3 rounded-tl-xl rounded-bl-lg group transition-colors hover:bg-white ${
+              className={`p-2 rounded-tl-xl rounded-bl-lg group transition-colors hover:bg-white ${
                 window.location.pathname === val.link ? "bg-white" : ""
               }`}
               id={window.location.pathname === val.link ? "active" : ""}
               style={{ marginBottom: "10px", marginLeft: "10px" }}
             >
               <div
-                className={`pb-3 p-3 hover:bg-red-500 rounded-xl ${
-                  window.location.pathname === val.link ? "bg-red-500" : ""
+                className={`pb-3 p-3 hover:bg-red-600 rounded-xl ${
+                  window.location.pathname === val.link ? "bg-red-600" : ""
                 }`}
               >
                 {val.icon}
