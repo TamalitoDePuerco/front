@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
@@ -8,22 +8,21 @@ import tortilla from "../components/assets/tortilla.png";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 
 function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async(event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    try { 
-      await axios.post('/', {email,password});
+    try {
+      await axios.post("/", { email, password });
       setEmail("");
       setPassword("");
       navigate("/");
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   // todo este codigo es estetica
   const [contrasenaVisible, setContrasenaVisible] = useState(false);
@@ -41,7 +40,7 @@ function Login() {
   const formularioStyle = {
     backgroundColor: "rgba(230, 230, 230, 0.95)",
   };
- //
+  //
   return (
     <div
       className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden"
@@ -54,9 +53,8 @@ function Login() {
         <h1 className="text-2xl font-semibold text-center">Bienvenido</h1>
         <form action="" className="mt-8 w-full" onSubmit={handleLogin}>
           <div className="mb-2 relative">
-
             <input
-              type="email" 
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="block w-full px-12 py-4 pl-10 mt-2 bg-white border rounded-2xl"
@@ -66,7 +64,6 @@ function Login() {
             <AiOutlineMail className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
           </div>
           <div className="mb-2 relative">
-
             <input
               type={contrasenaVisible ? "text" : "password"}
               className="block w-full px-12 py-4 pl-10 mt-8 bg-white border rounded-2xl pr-14"
@@ -94,7 +91,8 @@ function Login() {
             </button>
           </div>
 
-          <button type="submit"
+          <button
+            type="submit"
             className="block w-72 px-4 py-4 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700 text-white"
           >
             Iniciar Sesión

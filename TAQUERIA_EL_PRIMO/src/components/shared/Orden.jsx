@@ -2,11 +2,9 @@ import React from "react";
 
 function Orden() {
   return (
-    <div className="">
       <div className="">
-        
+        ola
       </div>
-    </div>
   );
 }
 
