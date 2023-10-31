@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { Link, useNavigate } from "react-router-dom";
-
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";

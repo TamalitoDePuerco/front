@@ -16,17 +16,17 @@ export const menuData = [
     {
         title: "Quesadilla",
         img: quesadilla,
-        descripcion: "Tacoooooooooooo oooooooooooooooooo ooooooooo oooooooooooo oooooooooooo",
+        descripcion: "quesadillaaaaa aaaaaaaaaa aaaaaaaaaaa aaaaaaaaa a   aaaaaaaaaa aaaaaaaaaa a",
     },
     {
         title: "Salchicha",
         img: salchicha,
-        descripcion: "Tacooooooooooo oooooooooooooooo oooooooooooooooooo oooooooooo oooooooo",
+        descripcion: "Salchichaaaaaaaaaaa aaaaaaaaa aaaaaaaaa aaaaaaaaaaaa aaaaaaaaaa aaaaaa a a  a a",
     },
     {
         title: "Carne Asada",
         img: carne,
-        descripcion: "Tacoooooooooo oooooooooooooooooo ooooooooooooooo oooooooooo oooooooooo",
+        descripcion: "Carneeeeeeeeeeeee eeeeeeeeee eeeeeeeee eeeeeeeee eeeeeeeee eeeeee eeeeeeeee eeee",
     }
 ]
 
