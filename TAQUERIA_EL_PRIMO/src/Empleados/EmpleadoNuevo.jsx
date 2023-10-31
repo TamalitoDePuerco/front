@@ -11,8 +11,8 @@ function NuevoEmpleado() {
                     <input type="text" className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg" placeholder="Correo electrónico"/>
                     <input type="text" className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg" placeholder="Contraseña"/>
                     <input type="text" className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg" placeholder="Confirmar contraseña"/>
-                    <button type="button" className="block w-72 px-4 py-2 mt-6 mx-auto bg-[#9D1514] border rounded-3xl hover:bg-red-700 text-white">Crear</button>
-                <h5 className="text-2xl font-semibold text-center">Nuevo Usuario</h5>
+                    <button type="button" className="block w-72 px-4 py-2 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700 text-white">Crear</button>
+                
                 </form>
             </div>
         </div>
