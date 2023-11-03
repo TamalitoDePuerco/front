@@ -1,0 +1,9 @@
+table {
+    height: max-content;
+    width: 50%;
+    border-radius: 20px;
+}
+
+td {
+    padding-left: 3%;
+}

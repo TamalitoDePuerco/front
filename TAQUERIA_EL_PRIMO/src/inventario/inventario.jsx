@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../components/shared/Siderbar";
+import "../inventario/inventario.css"
 
 function Inventario() {
   return (
@@ -9,9 +10,10 @@ function Inventario() {
       </div>
       <section className="flex flex-col justify-self-center items-center flex-1">
         <h1 className="text-2xl font-bold pt-16 pb-10">INVENTARIO</h1>
-        <table>
+        <table className="bg-gray-200">
           <thead>
             <tr>
+              <th>Producto</th>
               <th>Encabezado 1</th>
               <th>Encabezado 2</th>
               <th>Encabezado 3</th>
@@ -22,11 +24,13 @@ function Inventario() {
               <td>Dato 1</td>
               <td>Dato 2</td>
               <td>Dato 3</td>
+              <td>Dato 4</td>
             </tr>
             <tr>
               <td>Dato 4</td>
               <td>Dato 5</td>
               <td>Dato 6</td>
+              <td>Dato 7</td>
             </tr>
           </tbody>
         </table>

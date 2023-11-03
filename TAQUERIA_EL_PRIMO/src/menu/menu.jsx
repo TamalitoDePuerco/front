@@ -44,7 +44,7 @@ function Menu() {
       >
         <div className="h-full rounded-xl text-center flex flex-col items-center justify-center">
           <h1 className="p-4 font-bold text-2xl">PLATILLOS</h1>
-          <div className="grid grid-cols-1 md:grid-rows-2 md:grid-cols-3 gap-7 p-4 h-3/4 w-4/5 ">
+          <div className="grid grid-cols-1 md:grid-rows-2 md:grid-cols-3 gap-7 p-4 h-3/4 w-4/6 ">
             {menuData.map((val, key) => {
               return (
                 <div
@@ -83,7 +83,7 @@ function Menu() {
             />
           )}
           <h1 className="font-bold text-2xl">BEBIDAS</h1>
-          <div className="grid grid-cols-1 md:grid-rows-2 md:grid-cols-3 gap-7 p-4 h-3/4 w-4/5">
+          <div className="grid grid-cols-1 md:grid-rows-2 md:grid-cols-3 gap-7 p-4 h-3/4 w-4/6">
             {menuDataB.map((val, key) => {
               return (
                 <div
