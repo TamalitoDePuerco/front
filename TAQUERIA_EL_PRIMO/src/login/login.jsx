@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import axios from "../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import { LoginController } from "./login_controller";
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
     try {
-      await axios.post("/", { email, password });
-      setEmail("");
-      setPassword("");
-      navigate("/");
-    } catch (e) {
-      console.log(e);
+      const data = await LoginController(formData);
+      console.log(data);
+    } catch (error) {
+      console.error("Error al iniciar sesión", error);
     }
   };
 
@@ -54,8 +54,9 @@ function Login() {
           <div className="mb-2 relative">
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               className="block w-full px-12 py-4 pl-10 mt-2 bg-white border rounded-2xl"
               placeholder="Correo electrónico"
             />
@@ -67,8 +68,9 @@ function Login() {
               type={contrasenaVisible ? "text" : "password"}
               className="block w-full px-12 py-4 pl-10 mt-8 bg-white border rounded-2xl pr-14"
               placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
             />
 
             <AiOutlineLock className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
