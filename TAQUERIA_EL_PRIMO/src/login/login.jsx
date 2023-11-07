@@ -4,9 +4,11 @@ import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,7 +18,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const data = await LoginController(formData);
+      const data = await LoginController(formData, navigate);
       console.log(data);
     } catch (error) {
       console.error("Error al iniciar sesión", error);

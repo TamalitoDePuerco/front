@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import apiConfig from "../api/apiConfig";
 
-async function LoginController(formData) {
+async function LoginController(formData, navigate) {
   const baseURL = apiConfig.getBaseUrl();
 
   try {
@@ -15,10 +16,12 @@ async function LoginController(formData) {
       const data = await response.json();
       console.log(data)
       // Almacenar el token en el almacenamiento local
-      localStorage.setItem('token', data.token);
+      await localStorage.setItem('token', data.token);
+      
+      setTimeout(() => {
+        navigate('/menu');
+      }, 2000);
 
-      // Navegar a la pantalla protegida o realizar otras acciones
-      // Puedes utilizar React Router o tu enfoque de navegación preferido aquí
     } else {
       console.error("Error al iniciar sesión");
     }

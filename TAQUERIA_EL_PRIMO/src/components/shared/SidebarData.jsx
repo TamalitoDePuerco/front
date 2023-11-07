@@ -27,7 +27,7 @@ export const SidebarData = [
         link: "/add"
     },
     {
-        title: "Cerras Sesion",
+        title: "Cerrar Sesion",
         icon: <BiLogOut size="22px" color="#FFF"/>,
         link: "/"
     }
