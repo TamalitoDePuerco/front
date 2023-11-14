@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route exac path="/" element={<Login />} />
         <Route element={<ProtectedRoute token={token}/>}>
-          <Route exac path='/menu' element = {<Menu/>}/>
+          <Route exac path='/menu' replace element = {<Menu/>}/>
           <Route exac path='/inventario' element={<Inventario/>} />
           <Route exac path='/add' element={<NuevoEmpleado/>} />
         </Route>

@@ -11,22 +11,23 @@ export const menuData = [
     {
         title: "Taco",
         img: taco,
-        descripcion: "Tacoooooooo oooooooooooooooooooo oooooooooooooooo ooooooooo oooooooooo",
+        ingredientes: ["Lechuga", "Cebolla", "Salsa", "Dorado", "Semi-Dorado", "Con todo", "Natural"]
     },
     {
         title: "Quesadilla",
         img: quesadilla,
-        descripcion: "quesadillaaaaa aaaaaaaaaa aaaaaaaaaaa aaaaaaaaa a   aaaaaaaaaa aaaaaaaaaa a",
+        ingredientes: ["Lechuga", "Cebolla", "Salsa", "Dorado", "Semi-Dorado", "Con todo", "Natural"]
     },
     {
         title: "Salchicha",
         img: salchicha,
-        descripcion: "Salchichaaaaaaaaaaa aaaaaaaaa aaaaaaaaa aaaaaaaaaaaa aaaaaaaaaa aaaaaa a a  a a",
+        ingredientes: []
     },
     {
         title: "Carne Asada",
         img: carne,
-        descripcion: "Carneeeeeeeeeeeee eeeeeeeeee eeeeeeeee eeeeeeeee eeeeeeeee eeeeee eeeeeeeee eeee",
+        ingredientes: []
+        
     }
 ]
 
@@ -34,17 +35,17 @@ export const menuDataB = [
     {
         title: "Agua",
         img: agua,
-        descripcion: "Tacooooooooooo oooooooooooo oooooooooooooooooooo oooooooooooooooooooo",
+        ingredientes:[]
     },
     {
         title: "Refrescos",
         img: coca,
-        descripcion: "Tacooooooooooo oooooooo oooooooooooooooooooooo oooooooooooo oooooooooo",
+        ingredientes: ["Naraja", "Sangria", "Coca-cola"]
     },
     {
         title: "Agua de sabor",
         img: drink,
-        descripcion: "Tacooooooooo oooooooooo ooooooooooooo ooooooooooooooo oooooooooooooooo",
+        ingredientes: ["Orchata", "Cebada", "Jamaica"]
     } 
 
 ]

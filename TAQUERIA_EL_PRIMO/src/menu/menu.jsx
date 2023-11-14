@@ -15,14 +15,18 @@ function Menu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedImg, setSelectedImg] = useState("");
-  const [selectedDes, setSelectedDes] = useState("");
+  const [selectedIngredientes, setSelectedIngredientes] = useState("");
   const [isOrdenVisible, setIsOrdenVisible] = useState(true);
 
-  const openModal = (title, img, descripcion) => {
-    setSelectedTitle(title);
-    setSelectedImg(img);
-    setSelectedDes(descripcion);
-    setIsModalOpen(true);
+  const openModal = (title, img, ingredientes) => {
+    if (title === "Agua" || title === "Salchicha" || title === "Carne Asada") {
+      handleAguaClick();
+    } else {
+      setSelectedTitle(title);
+      setSelectedImg(img);
+      setSelectedIngredientes(ingredientes);
+      setIsModalOpen(true);
+    }
   };
 
   const closeModal = () => {
@@ -31,6 +35,12 @@ function Menu() {
 
   const toggleOrdenVisibility = () => {
     setIsOrdenVisible(!isOrdenVisible);
+  };
+
+  const handleAguaClick = () => {
+    // Lógica específica para "Agua"
+    console.log("Click en Agua");
+    // Puedes agregar más lógica según tus necesidades
   };
 
   return (
@@ -60,7 +70,7 @@ function Menu() {
                   <button
                     type="button"
                     onClick={() =>
-                      openModal(val.title, val.img, val.descripcion)
+                      openModal(val.title, val.img, val.ingredientes)
                     }
                     className="p-2"
                   >
@@ -79,7 +89,7 @@ function Menu() {
               closeModal={closeModal}
               selectedTitle={selectedTitle}
               selectedImg={selectedImg}
-              selectedDes={selectedDes}
+              ingredientes={selectedIngredientes}
             />
           )}
           <h1 className="font-bold text-2xl">BEBIDAS</h1>
@@ -98,7 +108,9 @@ function Menu() {
                   ></img>
                   <button
                     type="button"
-                    onClick={() => openModal(val.title, val.img)}
+                    onClick={() =>
+                      openModal(val.title, val.img, val.ingredientes)
+                    }
                     className="p-2"
                   >
                     <HiPlus

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { LoginController } from "./login_controller";
+import { LoginAuth } from "./login_controller";
+import { useNavigate } from "react-router-dom";
 import fondo from "../components/assets/taco-fondo.jpg";
 import quesadilla from "../components/assets/quesadilla.png";
 import tortilla from "../components/assets/tortilla.png";
 import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [validacionError, setValidacionError] = useState({
+    email: false,
+    password: false,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,15 +22,36 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      setValidacionError({
+        email: !formData.email,
+        password: !formData.password,
+      });
+      setErrorMessage("Los campos no pueden estar vacíos");
+      return;
+    }
+
     try {
-      const data = await LoginController(formData, navigate);
+      const data = await LoginAuth(formData, navigate);
+      // Guardar el token y la fecha de expiración en el localStorage
+      localStorage.setItem("token", data.access_token);
+      const expirationTime = new Date().getTime() + data.expires_in * 1000;
+      localStorage.setItem("tokenExpiration", expirationTime);
       console.log(data);
+      // Redirigir a la página protegida después del inicio de sesión
+      navigate("/menu");
     } catch (error) {
       console.error("Error al iniciar sesión", error);
+      if (error.message === "Error desconocido") {
+        setErrorMessage("Correo electrónico y/o contraseña incorrectos");
+      } else {
+        setErrorMessage(
+          "No se pudo iniciar sesión debido a problemas del servidor"
+        );
+      }
     }
   };
 
-  // todo este codigo es estetica
   const [contrasenaVisible, setContrasenaVisible] = useState(false);
 
   function verContrasena() {
@@ -41,7 +67,16 @@ function Login() {
   const formularioStyle = {
     backgroundColor: "rgba(230, 230, 230, 0.95)",
   };
-  //
+
+  useEffect(() => {
+    const expirationTime = localStorage.getItem("tokenExpiration");
+
+    if (expirationTime && new Date().getTime() > parseInt(expirationTime)) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("tokenExpiration");
+    }
+  }, []);
+
   return (
     <div
       className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden"
@@ -52,6 +87,11 @@ function Login() {
         style={formularioStyle}
       >
         <h1 className="text-2xl font-semibold text-center">Bienvenido</h1>
+        {errorMessage && (
+          <div className="bg-red-500 text-white p-2 mt-3 rounded-md">
+            {errorMessage}
+          </div>
+        )}
         <form action="" className="mt-8 w-full" onSubmit={handleLogin}>
           <div className="mb-2 relative">
             <input
@@ -62,7 +102,6 @@ function Login() {
               className="block w-full px-12 py-4 pl-10 mt-2 bg-white border rounded-2xl"
               placeholder="Correo electrónico"
             />
-
             <AiOutlineMail className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
           </div>
           <div className="mb-2 relative">
@@ -74,7 +113,6 @@ function Login() {
               value={formData.password}
               onChange={handleChange}
             />
-
             <AiOutlineLock className="absolute inset-y-5 inset-x-4 left-3 flex text-black text-xl" />
             <button
               type="button"
@@ -93,7 +131,6 @@ function Login() {
               )}
             </button>
           </div>
-
           <button
             type="submit"
             className="block w-72 px-4 py-4 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700 text-white"

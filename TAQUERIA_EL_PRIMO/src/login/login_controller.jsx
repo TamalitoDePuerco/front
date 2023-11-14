@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import apiConfig from "../api/apiConfig";
 
-async function LoginController(formData, navigate) {
+async function LoginAuth(formData, navigate) {
   const baseURL = apiConfig.getBaseUrl();
 
   try {
@@ -12,21 +11,25 @@ async function LoginController(formData, navigate) {
       },
       body: JSON.stringify(formData),
     });
+
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
-      // Almacenar el token en el almacenamiento local
-      await localStorage.setItem('token', data.token);
-      
-      setTimeout(() => {
-        navigate('/menu');
-      }, 2000);
 
+      // Almacenar el token en el almacenamiento local
+      localStorage.setItem('token', data.token);
+
+      navigate("/menu");
+
+      return data; // Devolver la información del token y su expiración
     } else {
-      console.error("Error al iniciar sesión");
+      const errorData = await response.json(); // Obtener detalles del error
+      console.error(`Error al iniciar sesión: ${errorData.message || 'Error desconocido'}`);
+      throw new Error(errorData.message || 'Error desconocido');
     }
   } catch (error) {
     console.error("Error al iniciar sesión", error);
+    throw error;
   }
 }
-export { LoginController };
+
+export { LoginAuth };
