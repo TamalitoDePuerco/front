@@ -5,6 +5,7 @@ import Login from './login/login';
 import Menu from './menu/menu';
 import Inventario from './inventario/inventario';
 import NuevoEmpleado from './Empleados/EmpleadoNuevo';
+import OrdenesGeneradas from './ordenes/ordenes_generadas';
 import { ProtectedRoute } from './components/shared/Protected_Route';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route exac path='/menu' replace element = {<Menu/>}/>
           <Route exac path='/inventario' element={<Inventario/>} />
           <Route exac path='/add' element={<NuevoEmpleado/>} />
+          <Route exac path='/ordenes' element={<OrdenesGeneradas/>}/>
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

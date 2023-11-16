@@ -7,7 +7,7 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import "../components/shared/Modal.css"; // Importa el archivo CSS del Modal
+import "../components/shared/Modal.css";
 import Modal from "../components/shared/Modal.jsx";
 import "../menu/menu.css";
 

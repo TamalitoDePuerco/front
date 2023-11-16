@@ -14,7 +14,7 @@ export const SidebarData = [
     {
         title: "Ordenes",
         icon: <MdOutlineInventory2 size="22px" color="#FFF"/>,
-        link: ""
+        link: "/ordenes"
     },
     {
         title: "Inventario",
