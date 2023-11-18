@@ -1,12 +1,15 @@
 import React from "react";
 import { SidebarData } from "./SidebarData";
 import { useNavigate } from "react-router-dom";
+import { Logout } from "./logout";
 
 function Sidebar() {
   const navigate = useNavigate();
 
-  const handleLogout = (title, link) => {
+  const handleLogout = async (title, link) => {
     if (title === "Cerrar Sesion") {
+      const data = await Logout();
+      console.log(data);
       localStorage.removeItem('token');
       console.log('Cerrando Sesion');
       navigate(link);

@@ -1,6 +1,6 @@
 class ApiConfig {
   constructor() {
-    this.baseURL = "http://localhost:8000/api";
+    this.baseURL = "http://localhost:8000";
   }
 
   getBaseUrl() {

@@ -4,7 +4,7 @@ async function LoginAuth(formData, navigate) {
   const baseURL = apiConfig.getBaseUrl();
 
   try {
-    const response = await fetch(`${baseURL}/auth/login`, {
+    const response = await fetch(`${baseURL}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,6 @@ async function LoginAuth(formData, navigate) {
 
       // Almacenar el token en el almacenamiento local
       localStorage.setItem('token', data.token);
-
       navigate("/menu");
 
       return data; // Devolver la información del token y su expiración

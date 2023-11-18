@@ -1,66 +1,162 @@
-import React, { useState } from "react";
-import Sidebar from "../components/shared/Siderbar"
-import { CrearEmpleadoNuevo } from "./crear_empleado_nuevo";
+import React, { useState, useEffect } from "react";
+import Sidebar from "../components/shared/Siderbar";
+import { CrearEmpleadoNuevo, ListaSucursales } from "./crear_empleado_nuevo";
+import tortilla from "../components/assets/tortilla.png";
+import quesadilla from "../components/assets/quesadilla.png";
 import "../App.css";
 
 function NuevoEmpleado() {
+  const [contrasenaVisible, setContrasenaVisible] = useState(false);
+  const [dataList, setDataList] = useState([]);
+  const [passwordError, setPasswordError] = useState(false);
+  const [telefonoError, setTelefonoError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
   const [formData, setFormData] = useState({
-    name: "",
+    nombre: "",
     email: "",
     password: "",
+    telefono: "",
+    domicilio: "",
+    id_sucursal: "",
+    rol: "",
     confirmPassword: "",
-    idSucursal: "",
-    roles: "",
   });
+
   const [validacionError, setValidacionError] = useState({
-    name: false,
+    nombre: false,
     email: false,
     password: false,
+    telefono: false,
+    domicilio: false,
     confirmPassword: false,
-    idSucursal: false,
-    roles: false,
+    id_sucursal: false,
+    rol: false,
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "telefono") {
+      if (value.length > 10 || value.length < 10) {
+        setTelefonoError(true);
+        setErrorMessage("El número de teléfono no es valido.");
+      } else {
+        setTelefonoError(false);
+      }
+    }
+
+    if (name === "id_sucursal_mostrar") {
+      setFormData({
+        ...formData,
+        id_sucursal_mostrar: value,
+        id_sucursal:
+          dataList.find((sucursal) => sucursal.nombre === value)?.id || "",
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
 
     setValidacionError({
-      name: !formData.name,
+      nombre: !formData.nombre,
       email: !formData.email,
+      telefono: !formData.telefono,
+      domicilio: !formData.domicilio,
       password: !formData.password,
       confirmPassword: formData.password !== formData.confirmPassword,
-      idSucursal: !formData.idSucursal,
-      roles: !formData.roles,
+      id_sucursal: !formData.id_sucursal,
+      rol: !formData.rol,
     });
 
     if (
-      !formData.name ||
+      !formData.nombre ||
       !formData.email ||
       !formData.password ||
       formData.password !== formData.confirmPassword ||
-      !formData.idSucursal ||
-      !formData.roles
+      !formData.id_sucursal ||
+      !formData.rol
     ) {
-      setErrorMessage("Los campos no pueden estar vacíos o las contraseñas no coinciden");
+      setErrorMessage(
+        "Los campos no pueden estar vacíos o las contraseñas no coinciden"
+      );
       return;
     }
 
+    // Validar longitud de la contraseña
+    if (formData.password.length < 8) {
+      setPasswordError(true);
+      setErrorMessage("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    } else {
+      setPasswordError(false);
+    }
+
     try {
-      const data = await CrearEmpleadoNuevo(formData);
+      const { nombre, email, password, telefono, domicilio, id_sucursal, rol } =
+        formData;
+      const data = await CrearEmpleadoNuevo({
+        nombre,
+        email,
+        password,
+        telefono,
+        domicilio,
+        id_sucursal,
+        rol,
+      });
       console.log(data);
+      // Aquí puedes agregar lógica adicional después de crear el usuario si es necesario
     } catch (error) {
       console.error("Error al crear Usuario", error);
       if (error.message === "Error desconocido") {
         setErrorMessage("Parámetros incorrectos");
       } else {
-        setErrorMessage("No se pudo crear usuario debido a un error de servidor");
+        setErrorMessage(
+          "No se pudo crear usuario debido a un error de servidor"
+        );
       }
     }
+  };
+
+  const getListas = async () => {
+    try {
+      const fetchedDataList = await ListaSucursales();
+
+      if (Array.isArray(fetchedDataList.Sucursal)) {
+        const defaultSucursalId =
+          fetchedDataList.Sucursal.length > 0
+            ? fetchedDataList.Sucursal[0].id
+            : "";
+        setFormData({
+          ...formData,
+          id_sucursal: defaultSucursalId,
+          id_sucursal_mostrar:
+            fetchedDataList.Sucursal.length > 0
+              ? fetchedDataList.Sucursal[0].nombre
+              : "",
+        });
+
+        setDataList(fetchedDataList.Sucursal);
+      } else {
+        console.error(
+          "La lista de sucursales no es un array:",
+          fetchedDataList
+        );
+      }
+    } catch (error) {
+      console.error("Error al obtener sucursales", error);
+    }
+  };
+
+  useEffect(() => {
+    getListas();
+  }, []);
+
+  const verContrasena = () => {
+    setContrasenaVisible((prevState) => !prevState);
   };
 
   return (
@@ -72,54 +168,82 @@ function NuevoEmpleado() {
           </h5>
           <form
             action=""
-            className="w-full pl-10 pr-10 pb-10"
+            className="w-full pl-10 pr-10 pb-10 relative"
             onSubmit={handleCrearUsuario}
           >
             <input
               type="text"
-              className={`block w-full px-12 py-3 pl-5 mt-2 bg-white border rounded-lg text-xl ${
-                validacionError.name ? "border-red-500" : ""
-              }`}
+              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
               placeholder="Nombre"
-              name="name"
-              value={formData.name}
+              name="nombre"
+              value={formData.nombre}
               onChange={handleChange}
+              required
             />
 
             <input
               type="text"
-              className={`block w-full px-12 py-3 pl-5 mt-2 bg-white border rounded-lg text-xl ${
-                validacionError.email ? "border-red-500" : ""
-              }`}
+              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
               placeholder="Correo electrónico"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              required
+            />
+
+            <input
+              type="number"
+              placeholder="Telefono"
+              className={`block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl ${
+                telefonoError ? "border-red-500" : ""
+              }`}
+              value={formData.telefono}
+              onChange={handleChange}
+              name="telefono"
+              required
+            />
+            {telefonoError && (
+              <p className="text-red-500 mt-2">
+                {formData.telefono.length < 10
+                  ? "El número de teléfono no es válido. Debe tener al menos 10 dígitos."
+                  : "El número de teléfono no puede tener más de 10 dígitos."}
+              </p>
+            )}
+
+            <input
+              type="text"
+              placeholder="Domicilio"
+              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
+              value={formData.domicilio}
+              onChange={handleChange}
+              name="domicilio"
+              required
             />
 
             <select
-              className={`block w-full py-4 pl-4 mt-4 rounded-lg text-xl ${
-                validacionError.idSucursal ? "border-red-500" : ""
-              }`}
-              value={formData.idSucursal}
+              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
+              value={formData.id_sucursal_mostrar}
               onChange={handleChange}
-              name="idSucursal"
+              name="id_sucursal_mostrar"
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Sucursal
               </option>
-              <option value="1">1</option>
+              {dataList.map((sucursal) => (
+                <option key={sucursal.id} value={sucursal.nombre}>
+                  {sucursal.nombre}
+                </option>
+              ))}
             </select>
 
             <select
-              className={`block w-full py-4 pl-4 mt-4 rounded-lg text-xl ${
-                validacionError.roles ? "border-red-500" : ""
-              }`}
-              value={formData.roles}
+              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
+              value={formData.rol}
               onChange={handleChange}
-              name="roles"
+              name="rol"
+              required
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Rol
               </option>
               <option value="Admin">Admin</option>
@@ -128,31 +252,65 @@ function NuevoEmpleado() {
               <option value="Encargado">Encargado</option>
             </select>
 
+            <div className="mb-2 relative">
+              <input
+                type={contrasenaVisible ? "text" : "password"}
+                className={`block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl ${
+                  validacionError.password ? "border-red-500" : ""
+                }`}
+                placeholder="Contraseña"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              {validacionError.password && (
+                <p className="text-red-500 mt-2">
+                  La contraseña no puede estar vacía.
+                </p>
+              )}
+              {passwordError && (
+                <p className="text-red-500 mt-2">
+                  La contraseña debe tener al menos 8 caracteres.
+                </p>
+              )}
+              <div className="absolute inset-y-0 right-0 flex items-center px-4">
+                <button
+                  type="button"
+                  onClick={verContrasena}
+                >
+                  {contrasenaVisible ? (
+                    <img src={tortilla} alt="Taco" height="20px" width="32px" />
+                  ) : (
+                    <img
+                      src={quesadilla}
+                      alt="Quesadilla"
+                      height="20px"
+                      width="32px"
+                    />
+                  )}
+                </button>
+              </div>
+            </div>
             <input
               type="password"
-              className={`block w-full px-12 py-3 pl-5 mt-4 bg-white border rounded-lg text-xl ${
-                validacionError.password ? "border-red-500" : ""
-              }`}
-              placeholder="Contraseña"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-
-            <input
-              type="password"
-              className={`block w-full px-12 py-3 pl-5 mt-4 bg-white border rounded-lg text-xl ${
+              className={`block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl ${
                 validacionError.confirmPassword ? "border-red-500" : ""
               }`}
               placeholder="Confirmar contraseña"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              required
             />
-
+            {validacionError.confirmPassword && (
+              <p className="text-red-500 mt-2">
+                Las contraseñas no coinciden. Por favor, inténtalo de nuevo.
+              </p>
+            )}
             <button
               type="submit"
-              className="block w-72 px-4 py-3 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700 text-white text-xl"
+              className="block w-72 px-4 py-2 mt-6 mx-auto bg-red-500 border rounded-3xl hover:bg-red-700 text-white text-xl"
             >
               Crear
             </button>
