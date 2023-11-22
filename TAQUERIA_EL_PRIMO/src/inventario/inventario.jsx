@@ -35,13 +35,15 @@ function Inventario() {
           locale={es}
           placeholderText="Selecciona una fecha"
         />
-        <table className="bg-gray-200">
+        <table className="bg-gray-200 w-4/5">
           <thead>
             <tr>
               <th>Producto</th>
-              <th>Encabezado 1</th>
-              <th>Encabezado 2</th>
-              <th>Encabezado 3</th>
+              <th>Habia</th>
+              <th>Quedo</th>
+              <th>Gasto</th>
+              <th>Precio</th>
+              <th>Modificar</th>
             </tr>
           </thead>
           <tbody>
