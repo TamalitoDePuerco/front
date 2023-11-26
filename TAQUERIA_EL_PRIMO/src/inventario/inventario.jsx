@@ -1,24 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/shared/Siderbar";
 import { MostrarInventario } from "./inventario_api";
-import "../inventario/inventario.css";
+import { FiEdit3 } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
+import { format } from "date-fns";
 
 function Inventario() {
-  const [dataList, setDataList] = useState(false);
+  const [dataList, setDataList] = useState([]);
+  const [date, setDate] = useState(new Date());
 
-  const getLista = async () => {
+  const getLista = async (fecha) => {
     try {
-      const fetchedDataList = await MostrarInventario();
-      // Realizar las operaciones necesarias con los datos
+      const fetchedDataList = await MostrarInventario(fecha);
+      setDataList(fetchedDataList);
+      console.log(fecha);
     } catch (error) {
-      // Manejar errores aquí
+      console.error("Error al obtener datos de inventario", error);
     }
   };
 
-  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    getLista(format(date, "yyyy-MM-dd"));
+  }, [date]);
+
+  const handleDateChange = (selectedDate) => {
+    const formattedDate = format(selectedDate, "yyyy-MM-dd");
+    setDate(selectedDate);
+    getLista(formattedDate);
+  };
 
   return (
     <div className="bg-[#F8F8F8] w-full min-h-screen flex">
@@ -29,7 +40,7 @@ function Inventario() {
         <h1 className="text-2xl font-bold pt-16 pb-3">INVENTARIO</h1>
         <DatePicker
           selected={date}
-          onChange={(date) => setDate(date)}
+          onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           className="bg-gray-200 rounded-3xl mb-6 text-center"
           locale={es}
@@ -47,18 +58,20 @@ function Inventario() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Dato 1</td>
-              <td>Dato 2</td>
-              <td>Dato 3</td>
-              <td>Dato 4</td>
-            </tr>
-            <tr>
-              <td>Dato 4</td>
-              <td>Dato 5</td>
-              <td>Dato 6</td>
-              <td>Dato 7</td>
-            </tr>
+            {dataList.map((item, index) => (
+              <tr key={index}>
+                <td>{item.producto}</td>
+                <td>{item.habia}</td>
+                <td>{item.quedo}</td>
+                <td>{item.gasto}</td>
+                <td>{item.precio}</td>
+                <td>
+                  <button>
+                    <FiEdit3 size="24px" />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>

@@ -1,28 +1,29 @@
 import apiConfig from "../api/apiConfig";
 
-async function MostrarInventario() {
+async function MostrarInventario(fecha) {
   const baseURL = apiConfig.getBaseUrl();
   const token = localStorage.getItem("token");
 
   try {
     const response = await fetch(`${baseURL}/inventario/index`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ fecha }), 
     });
 
-    if(response.ok){
-        const data = await response.json();
-        console.log(data);
-        return data;
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return data;
     } else {
-        const errorData = await response.json();
-        console.error("Error al recibir Inventario", errorData);
+      const errorData = await response.json();
+      console.error("Error al recibir Inventario", errorData);
     }
   } catch (e) {
-    console.error("error al rebir la lista de inventario", e);
+    console.error("Error al recibir la lista de inventario", e);
     throw e;
   }
 }
