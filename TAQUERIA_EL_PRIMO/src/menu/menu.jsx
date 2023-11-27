@@ -146,6 +146,7 @@ function Menu() {
           </button>
           <h1 className="text-center font-bold text-2xl p-6">Orden</h1>
           <Orden />
+          
         </div>
       </div>
     </div>

@@ -5,15 +5,15 @@ import { FiEdit3 } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
-import { format } from "date-fns";
 
 function Inventario() {
   const [dataList, setDataList] = useState([]);
-  const [date, setDate] = useState(new Date());
+  const [fecha, setFecha] = useState(new Date());
 
   const getLista = async (fecha) => {
     try {
-      const fetchedDataList = await MostrarInventario(fecha);
+      const fetchedDataList = await MostrarInventario({ fecha});
+      
       setDataList(fetchedDataList);
       console.log(fecha);
     } catch (error) {
@@ -22,13 +22,11 @@ function Inventario() {
   };
 
   useEffect(() => {
-    getLista(format(date, "yyyy-MM-dd"));
-  }, [date]);
+    getLista(fecha);
+  }, [fecha]);
 
   const handleDateChange = (selectedDate) => {
-    const formattedDate = format(selectedDate, "yyyy-MM-dd");
-    setDate(selectedDate);
-    getLista(formattedDate);
+    setFecha(selectedDate);
   };
 
   return (
@@ -39,7 +37,7 @@ function Inventario() {
       <section className="flex flex-col justify-self-center items-center flex-1">
         <h1 className="text-2xl font-bold pt-16 pb-3">INVENTARIO</h1>
         <DatePicker
-          selected={date}
+          selected={fecha}
           onChange={handleDateChange}
           dateFormat="dd/MM/yyyy"
           className="bg-gray-200 rounded-3xl mb-6 text-center"
@@ -60,7 +58,7 @@ function Inventario() {
           <tbody>
             {dataList.map((item, index) => (
               <tr key={index}>
-                <td>{item.producto}</td>
+                <td>{item.nombre}</td>
                 <td>{item.habia}</td>
                 <td>{item.quedo}</td>
                 <td>{item.gasto}</td>
