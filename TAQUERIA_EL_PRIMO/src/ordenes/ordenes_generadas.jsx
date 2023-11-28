@@ -11,7 +11,6 @@ function OrdenesGeneradas() {
         return "bg-green-100"; 
       case "Servido":
         return "bg-orange-200"; 
-
       default:
         return "bg-white"; 
     }

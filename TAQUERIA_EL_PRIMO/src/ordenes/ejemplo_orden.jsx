@@ -30,4 +30,29 @@ export const ordenesData = [
     Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
     Estatus: "Activo", 
   },
+  {
+    title: "Mesa 5",
+    Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
+    Estatus: "Activo", 
+  },
+  {
+    title: "Mesa 5",
+    Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
+    Estatus: "Activo", 
+  },
+  {
+    title: "Mesa 5",
+    Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
+    Estatus: "Activo", 
+  },
+  {
+    title: "Mesa 5",
+    Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
+    Estatus: "Activo", 
+  },
+  {
+    title: "Mesa 5",
+    Descripcion: "Sdsadasdadsad dasdnasjd dajndasd diandadk indklads idaslkdnladn dlandlsnd idnald ladn",
+    Estatus: "Activo", 
+  },
 ];

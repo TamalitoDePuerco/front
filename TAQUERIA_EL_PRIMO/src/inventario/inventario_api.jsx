@@ -3,21 +3,20 @@ import apiConfig from "../api/apiConfig";
 async function MostrarInventario({ fecha }) {
   const baseURL = apiConfig.getBaseUrl();
   const token = localStorage.getItem("token");
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
   try {
-    const response = await fetch(`${baseURL}/inventario/index`, {
+    const response = await fetch(`${baseURL}/api/inventario/index`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
-        "X-CSRF-TOKEN": csrfToken,
       },
       body: JSON.stringify({ fecha }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      console.log("API",data);
       return data;
     } else {
       const errorData = await response.json();

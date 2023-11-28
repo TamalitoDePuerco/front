@@ -36,7 +36,7 @@ async function ListaSucursales() {
   const token = localStorage.getItem("token");
 
   try {
-    const response = await fetch(`${baseURL}/sucursal/index`, {
+    const response = await fetch(`${baseURL}/api/sucursal/index`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

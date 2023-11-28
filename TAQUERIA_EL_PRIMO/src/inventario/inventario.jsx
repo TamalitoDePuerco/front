@@ -5,25 +5,37 @@ import { FiEdit3 } from "react-icons/fi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
+import "./inventario.css";
 
 function Inventario() {
-  const [dataList, setDataList] = useState([]);
   const [fecha, setFecha] = useState(new Date());
+  const [datosInventario, setDatosInventario] = useState([]);
 
   const getLista = async (fecha) => {
     try {
-      const fetchedDataList = await MostrarInventario({ fecha});
-      
-      setDataList(fetchedDataList);
-      console.log(fecha);
+      const response = await MostrarInventario({ fecha });
+  
+      console.log("Belico", response); 
+      console.log("Respuesta de la API:", JSON.stringify(response));
+      if (response && response["data:"]) {
+        setDatosInventario(response["data:"]);
+      } else {
+        console.error("La respuesta o los datos son undefined:", response);
+      }
     } catch (error) {
       console.error("Error al obtener datos de inventario", error);
     }
   };
+  
 
   useEffect(() => {
+    console.log("El componente se volvió a montar");
     getLista(fecha);
   }, [fecha]);
+
+  useEffect(() => {
+    console.log("Datos de inventario:", datosInventario);
+  }, [datosInventario]);
 
   const handleDateChange = (selectedDate) => {
     setFecha(selectedDate);
@@ -47,7 +59,7 @@ function Inventario() {
         <table className="bg-gray-200 w-4/5">
           <thead>
             <tr>
-              <th>Producto</th>
+              <th className="w-1/4">Producto</th>
               <th>Habia</th>
               <th>Quedo</th>
               <th>Gasto</th>
@@ -56,13 +68,13 @@ function Inventario() {
             </tr>
           </thead>
           <tbody>
-            {dataList.map((item, index) => (
-              <tr key={index}>
-                <td>{item.nombre}</td>
-                <td>{item.habia}</td>
-                <td>{item.quedo}</td>
-                <td>{item.gasto}</td>
-                <td>{item.precio}</td>
+            {datosInventario.map((data) => (
+              <tr key={data.id}>
+                <td>{data.nombre}</td>
+                <td>{data.habia}</td>
+                <td>{data.quedo}</td>
+                <td>{data.gasto}</td>
+                <td>{data.precio}</td>
                 <td>
                   <button>
                     <FiEdit3 size="24px" />
@@ -70,6 +82,11 @@ function Inventario() {
                 </td>
               </tr>
             ))}
+            {datosInventario.length === 0 && (
+              <tr>
+                <td colSpan="6">No hay datos disponibles</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </section>
