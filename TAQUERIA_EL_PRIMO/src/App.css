@@ -13,4 +13,12 @@ body {
     border-radius: 15px; /* Agrega bordes redondeados si lo deseas */
   }
   
-  
+  ::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 6px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #ef4444; /* Color del thumb (barra de desplazamiento) */
+    border-radius: 10px;
+  }
