@@ -3,6 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 
 function Modal(props) {
   const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [cantidadSeleccionada, setCantidadSeleccionada] = useState(0);
 
   const handleIngredientToggle = (ingredient) => {
     if (selectedIngredients.includes(ingredient)) {
@@ -10,6 +11,17 @@ function Modal(props) {
     } else {
       setSelectedIngredients([...selectedIngredients, ingredient]);
     }
+  };
+
+  const handleAddToOrder = () => {
+    const nuevaOrden = {
+      title: props.selectedTitle,
+      descripcion: selectedIngredients.join(", "),
+      Cantidad: cantidadSeleccionada,
+    };
+
+    props.addToOrder(nuevaOrden);
+    props.closeModal();
   };
 
   return (
@@ -39,7 +51,7 @@ function Modal(props) {
             </div>
           ))}
         </div>
-        <button className="bg-blue-500 text-white rounded-md p-2 mt-4">
+        <button className="bg-blue-500 text-white rounded-md p-2 mt-4" onClick={handleAddToOrder}>
           Añadir
         </button>
       </div>

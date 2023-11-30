@@ -17,6 +17,7 @@ function Menu() {
   const [selectedImg, setSelectedImg] = useState("");
   const [selectedIngredientes, setSelectedIngredientes] = useState("");
   const [isOrdenVisible, setIsOrdenVisible] = useState(true);
+  const [ordenes, setOrdenes] = useState([]);
 
   const openModal = (title, img, ingredientes) => {
     if (title === "Agua" || title === "Salchicha" || title === "Carne Asada") {
@@ -41,6 +42,10 @@ function Menu() {
     // Lógica específica para "Agua"
     console.log("Click en Agua");
     // Puedes agregar más lógica según tus necesidades
+  };
+
+  const addToOrder = (nuevaOrden) => {
+    setOrdenes([...ordenes, nuevaOrden]);
   };
 
   return (
@@ -90,6 +95,7 @@ function Menu() {
               selectedTitle={selectedTitle}
               selectedImg={selectedImg}
               ingredientes={selectedIngredientes}
+              addToOrder={addToOrder}
             />
           )}
           <h1 className="font-bold text-2xl">BEBIDAS</h1>
@@ -145,8 +151,7 @@ function Menu() {
             )}
           </button>
           <h1 className="text-center font-bold text-2xl p-6">Orden</h1>
-          <Orden />
-          
+          <Orden ordenes={ordenes} setOrdenes={setOrdenes} />
         </div>
       </div>
     </div>
