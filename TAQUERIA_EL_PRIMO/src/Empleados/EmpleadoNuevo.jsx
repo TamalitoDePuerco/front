@@ -37,6 +37,26 @@ function NuevoEmpleado() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    if (name === "email") {
+      // Verificar que haya al menos un "@" y un "."
+      const atSymbolIndex = value.indexOf("@");
+      const dotSymbolIndex = value.lastIndexOf(".");
+
+      const isValidEmail =
+        atSymbolIndex > 0 &&
+        dotSymbolIndex > atSymbolIndex + 1 &&
+        dotSymbolIndex < value.length - 1;
+
+      setValidacionError({
+        ...validacionError,
+        email: !isValidEmail,
+      });
+
+      if (!isValidEmail) {
+        setErrorMessage("El correo electrónico no es válido.");
+      }
+    }
+
     if (name === "telefono") {
       if (value.length > 10 || value.length < 10) {
         setTelefonoError(true);
@@ -86,7 +106,6 @@ function NuevoEmpleado() {
       return;
     }
 
-    // Validar longitud de la contraseña
     if (formData.password.length < 8) {
       setPasswordError(true);
       setErrorMessage("La contraseña debe tener al menos 8 caracteres.");
@@ -108,7 +127,17 @@ function NuevoEmpleado() {
         rol,
       });
       console.log(data);
-      // Aquí puedes agregar lógica adicional después de crear el usuario si es necesario
+
+      setFormData({
+        nombre: "",
+        email: "",
+        password: "",
+        telefono: "",
+        domicilio: "",
+        id_sucursal: "",
+        rol: "",
+        confirmPassword: "",
+      });
     } catch (error) {
       console.error("Error al crear Usuario", error);
       if (error.message === "Error desconocido") {
@@ -183,13 +212,20 @@ function NuevoEmpleado() {
 
             <input
               type="text"
-              className="block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl"
+              className={`block w-full px-12 py-2 pl-5 mt-2 bg-white border rounded-lg text-xl ${
+                validacionError.email ? "border-red-500" : ""
+              }`}
               placeholder="Correo electrónico"
               name="email"
               value={formData.email}
               onChange={handleChange}
               required
             />
+            {validacionError.email && (
+              <p className="text-red-500 mt-2">
+                El correo electrónico no es válido.
+              </p>
+            )}
 
             <input
               type="number"
@@ -275,10 +311,7 @@ function NuevoEmpleado() {
                 </p>
               )}
               <div className="absolute inset-y-0 right-0 flex items-center px-4">
-                <button
-                  type="button"
-                  onClick={verContrasena}
-                >
+                <button type="button" onClick={verContrasena}>
                   {contrasenaVisible ? (
                     <img src={tortilla} alt="Taco" height="20px" width="32px" />
                   ) : (

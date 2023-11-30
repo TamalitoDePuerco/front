@@ -5,3 +5,5 @@ npm install date-fns --save
 npm install tailwindcss
 npm install react-router-dom
 npm install axios
+npm install date-fns-tz
+

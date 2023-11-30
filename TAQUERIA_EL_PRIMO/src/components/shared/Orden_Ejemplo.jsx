@@ -15,11 +15,6 @@ export const OrdenesGeneradasEjemplos = [
         Cantidad: "3"
     },
     {
-        title: "Coca",
-        descripcion: "",
-        Cantidad: "2"
-    },
-    {
         title: "Quesadilla",
         descripcion: "Sin lechuga, sin cebolla, sin salsa",
         Cantidad: "3"
@@ -29,19 +24,10 @@ export const OrdenesGeneradasEjemplos = [
         descripcion: "Sin lechuga, sin cebolla, sin salsa",
         Cantidad: "3"
     },
-    {
+        {
         title: "Quesadilla",
         descripcion: "Sin lechuga, sin cebolla, sin salsa",
         Cantidad: "3"
     },
-    {
-        title: "Quesadilla",
-        descripcion: "Sin lechuga, sin cebolla, sin salsa",
-        Cantidad: "3"
-    },
-    {
-        title: "Quesadilla",
-        descripcion: "Sin lechuga, sin cebolla, sin salsa",
-        Cantidad: "3"
-    },
+    
 ]

@@ -16,5 +16,9 @@ td {
 thead {
   position: sticky;
   top: 0;
+}
 
+.dashed-border {
+  border: 3px dashed #9b9898;
+  border-radius: 15px;
 }

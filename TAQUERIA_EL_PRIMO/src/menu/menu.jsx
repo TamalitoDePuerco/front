@@ -130,7 +130,7 @@ function Menu() {
           isOrdenVisible ? "slide-in" : "slide-out"
         }`}
       >
-        <div className="bg-slate-100 h-full rounded-xl shadow-2xl relative">
+        <div className="bg-slate-200 h-full rounded-xl shadow-2xl relative">
           <button
             type="button"
             onClick={toggleOrdenVisibility}

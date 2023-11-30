@@ -1,8 +1,14 @@
+
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { utcToZonedTime } from 'date-fns-tz';
 import apiConfig from "../api/apiConfig";
 
 async function MostrarInventario({ fecha }) {
   const baseURL = apiConfig.getBaseUrl();
   const token = localStorage.getItem("token");
+  const fechaMazatlan = utcToZonedTime(fecha, 'America/Mazatlan');
+  const formattedFecha = format(fechaMazatlan, 'yyyy-MM-dd', { locale: es });
 
   try {
     const response = await fetch(`${baseURL}/api/inventario/index`, {
@@ -11,11 +17,12 @@ async function MostrarInventario({ fecha }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ fecha }),
+      body: JSON.stringify({ fecha: formattedFecha }),
     });
 
     if (response.ok) {
       const data = await response.json();
+      console.log("se visito:", formattedFecha)
       return data;
     } else {
       const errorData = await response.json();
@@ -54,9 +61,12 @@ async function EditarInventario(id, datos) {
   }
 }
 
-async function FinalizarInventario({ fecha }) {
+async function FinalizarInventario(fecha) {
   const baseURL = apiConfig.getBaseUrl();
   const token = localStorage.getItem("token");
+  const fechaMazatlan = utcToZonedTime(fecha, 'America/Mazatlan');
+  const formattedFecha = format(fechaMazatlan, 'yyyy-MM-dd', { locale: es });
+
 
   try {
     const response = await fetch(`${baseURL}/api/inventario/nuevo`, {
@@ -65,11 +75,12 @@ async function FinalizarInventario({ fecha }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ fecha }),
+      body: JSON.stringify({ fecha: formattedFecha }),
     });
 
     if (response.ok) {
       const data = await response.json();
+      console.log("se finalizo el inventario del: ", formattedFecha)
       return data;
     } else {
       const errorData = await response.json();
@@ -80,5 +91,4 @@ async function FinalizarInventario({ fecha }) {
     throw e;
   }
 }
-
 export { MostrarInventario, EditarInventario, FinalizarInventario };

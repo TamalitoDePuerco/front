@@ -10,15 +10,15 @@ import es from "date-fns/locale/es";
 import "./inventario.css";
 
 const TableHead = () => (
-  <thead className="bg-gray-200 h-14">
+  <thead className="bg-gray-300 h-14">
     <tr>
-      <th className="w-1/4 rounded-tl-3xl">Producto</th>
+      <th className="w-1/4 ">Producto</th>
       <th>Habia</th>
       <th>Entro</th>
       <th>Quedo</th>
       <th>Gasto</th>
       <th>Precio</th>
-      <th className="rounded-tr-3xl">Modificar</th>
+      <th className="">Modificar</th>
     </tr>
   </thead>
 );
@@ -38,6 +38,7 @@ const Inventario = () => {
   const getLista = async (fecha) => {
     try {
       const response = await MostrarInventario({ fecha });
+      
       if (response && response["data:"]) {
         setDatosInventario(response["data:"]);
       } else {
@@ -58,8 +59,7 @@ const Inventario = () => {
         precio: editarValores.precio,
       };
 
-      const response = await EditarInventario(id, datos);
-      console.log(response);
+      const response = await EditarInventario(id, datos);;
       getLista(fecha);
     } catch (error) {
       console.error("Valimos verga", error);
@@ -121,11 +121,11 @@ const Inventario = () => {
           selected={fecha}
           onChange={SeleccionarFecha}
           dateFormat="dd/MM/yyyy"
-          className="bg-gray-200 rounded-3xl mb-6 text-center p-2"
+          className="bg-gray-200 rounded-3xl mb-6 text-center p-2 dashed-border"
           locale={es}
           placeholderText="Selecciona una fecha"
         />
-        <table className="bg-gray-200 w-5/6 shadow-2xl">
+        <table className="bg-gray-200 w-11/12 shadow-2xl dashed-border">
           <TableHead />
           <tbody className="">
             {datosInventario.map((data) => (
@@ -143,7 +143,7 @@ const Inventario = () => {
                           setEditarValores({ ...editarValores, entro: newValue });
                         }
                       }}
-                      className="w-2/3 text-center"
+                      className="w-10/12 text-center"
                     />
                   ) : (
                     data.entro
@@ -160,7 +160,7 @@ const Inventario = () => {
                           setEditarValores({ ...editarValores, quedo: newValue });
                         }
                       }}
-                      className="w-2/3 text-center"
+                      className="w-10/12 text-center"
                     />
                   ) : (
                     data.quedo
@@ -178,7 +178,7 @@ const Inventario = () => {
                           setEditarValores({ ...editarValores, precio: newValue });
                         }
                       }}
-                      className="w-2/3 text-center"
+                      className="w-10/12 text-center"
                     />
                   ) : (
                     data.precio
