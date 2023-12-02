@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/shared/Siderbar";
-import { MostrarInventario, EditarInventario, FinalizarInventario } from "./inventario_api";
+import {
+  MostrarInventario,
+  EditarInventario,
+  FinalizarInventario,
+} from "./inventario_api";
 import { FiEdit3 } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import { FaRegSave } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import es from "date-fns/locale/es";
+import { Mensaje } from "../components/shared/mensaje";
 import "./inventario.css";
 
 const TableHead = () => (
@@ -32,19 +37,30 @@ const Inventario = () => {
   const [fecha, setFecha] = useState(new Date());
   const [datosInventario, setDatosInventario] = useState([]);
   const [editarFilaId, setEditarFilaId] = useState(null);
-  const [editarValores, setEditarValores] = useState({ entro: "", quedo: "", precio: "" });
-  const [finalizarInventarioLoading, setFinalizarInventarioLoading] = useState(false);
+  const [editarValores, setEditarValores] = useState({
+    entro: "",
+    quedo: "",
+    precio: "",
+  });
+  const [finalizarInventarioLoading, setFinalizarInventarioLoading] =
+    useState(false);
+  const [mensaje, setMensaje] = useState(null);
+  const [tipoMensaje, setTipoMensaje] = useState("success");
+  const [mostrarMensaje, setMostrarMensaje] = useState(false);
 
   const getLista = async (fecha) => {
     try {
       const response = await MostrarInventario({ fecha });
-      
+
       if (response && response["data:"]) {
         setDatosInventario(response["data:"]);
       } else {
         console.error("La respuesta o los datos son undefined:", response);
       }
     } catch (error) {
+      setMensaje("Error en el servidor al obtener productos");
+      setTipoMensaje("error");
+      mostrarMensajeHandler();
       console.error("Error al obtener datos de inventario", error);
     }
   };
@@ -59,10 +75,16 @@ const Inventario = () => {
         precio: editarValores.precio,
       };
 
-      const response = await EditarInventario(id, datos);;
+      const response = await EditarInventario(id, datos);
       getLista(fecha);
+      setMensaje("Producto actualizado correctamente");
+      setTipoMensaje("success");
+      mostrarMensajeHandler();
     } catch (error) {
       console.error("Valimos verga", error);
+      setMensaje("Error al actualizar el producto");
+      setTipoMensaje("error");
+      mostrarMensajeHandler();
     }
   };
 
@@ -71,9 +93,14 @@ const Inventario = () => {
     try {
       const response = await FinalizarInventario(fecha);
       getLista(fecha);
-      console.log(response);
+      setMensaje("Inventario finalizado correctamente");
+      setTipoMensaje("success");
+      mostrarMensajeHandler();
     } catch (error) {
       console.error("Error al finalizar inventario", error);
+      setMensaje("Error al finalizar el inventario");
+      setTipoMensaje("error");
+      mostrarMensajeHandler();
     } finally {
       setFinalizarInventarioLoading(false);
     }
@@ -82,10 +109,6 @@ const Inventario = () => {
   useEffect(() => {
     getLista(fecha);
   }, [fecha]);
-
-  useEffect(() => {
-    console.log("Datos de inventario:", datosInventario);
-  }, [datosInventario]);
 
   const SeleccionarFecha = (fechaSeleccionada) => {
     setFecha(fechaSeleccionada);
@@ -108,6 +131,13 @@ const Inventario = () => {
   const BotonCancelar = () => {
     setEditarFilaId(null);
     setEditarValores({ entro: "", quedo: "", precio: "" });
+  };
+
+  const mostrarMensajeHandler = () => {
+    setMostrarMensaje(true);
+    setTimeout(() => {
+      setMostrarMensaje(false);
+    }, 3000);
   };
 
   return (
@@ -140,7 +170,10 @@ const Inventario = () => {
                       onChange={(e) => {
                         const newValue = e.target.value;
                         if (isDecimal(newValue) || newValue === "") {
-                          setEditarValores({ ...editarValores, entro: newValue });
+                          setEditarValores({
+                            ...editarValores,
+                            entro: newValue,
+                          });
                         }
                       }}
                       className="w-10/12 text-center"
@@ -157,7 +190,10 @@ const Inventario = () => {
                       onChange={(e) => {
                         const newValue = e.target.value;
                         if (isDecimal(newValue) || newValue === "") {
-                          setEditarValores({ ...editarValores, quedo: newValue });
+                          setEditarValores({
+                            ...editarValores,
+                            quedo: newValue,
+                          });
                         }
                       }}
                       className="w-10/12 text-center"
@@ -175,7 +211,10 @@ const Inventario = () => {
                       onChange={(e) => {
                         const newValue = e.target.value;
                         if (isDecimal(newValue) || newValue === "") {
-                          setEditarValores({ ...editarValores, precio: newValue });
+                          setEditarValores({
+                            ...editarValores,
+                            precio: newValue,
+                          });
                         }
                       }}
                       className="w-10/12 text-center"
@@ -216,6 +255,14 @@ const Inventario = () => {
         >
           {finalizarInventarioLoading ? "Cargando..." : "Finalizar inventario"}
         </button>
+
+        {mensaje && mostrarMensaje && (
+          <Mensaje
+            mensaje={mensaje}
+            tipo={tipoMensaje}
+            onClose={() => setMostrarMensaje(false)}
+          />
+        )}
       </section>
     </div>
   );

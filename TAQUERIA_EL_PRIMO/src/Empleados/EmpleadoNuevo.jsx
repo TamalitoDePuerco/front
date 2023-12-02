@@ -3,6 +3,7 @@ import Sidebar from "../components/shared/Siderbar";
 import { CrearEmpleadoNuevo, ListaSucursales } from "./crear_empleado_nuevo";
 import tortilla from "../components/assets/tortilla.png";
 import quesadilla from "../components/assets/quesadilla.png";
+import { Mensaje } from "../components/shared/mensaje";
 import "../App.css";
 
 function NuevoEmpleado() {
@@ -11,6 +12,16 @@ function NuevoEmpleado() {
   const [passwordError, setPasswordError] = useState(false);
   const [telefonoError, setTelefonoError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [mensaje, setMensaje] = useState(null);
+  const [tipoMensaje, setTipoMensaje] = useState("success");
+  const [mostrarMensaje, setMostrarMensaje] = useState(false);
+
+  const mostrarMensajeHandler = () => {
+    setMostrarMensaje(true);
+    setTimeout(() => {
+      setMostrarMensaje(false);
+    }, 3000);
+  };
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -138,14 +149,20 @@ function NuevoEmpleado() {
         rol: "",
         confirmPassword: "",
       });
+
+      setMensaje("El empleado se creo con exito");
+      setTipoMensaje("success");
+      mostrarMensajeHandler();
     } catch (error) {
       console.error("Error al crear Usuario", error);
       if (error.message === "Error desconocido") {
-        setErrorMessage("Parámetros incorrectos");
+        setMensaje("Los parametros son incorrectos o estan en uso");
+        setTipoMensaje("error");
+        mostrarMensajeHandler();
       } else {
-        setErrorMessage(
-          "No se pudo crear usuario debido a un error de servidor"
-        );
+        setMensaje("Error en el servidor y/o parametros en uso");
+        setTipoMensaje("error");
+        mostrarMensajeHandler();
       }
     }
   };
@@ -176,7 +193,9 @@ function NuevoEmpleado() {
         );
       }
     } catch (error) {
-      console.error("Error al obtener sucursales", error);
+      setMensaje("Error en el servidor, no se pudieron obtener las sucursales");
+      setTipoMensaje("error");
+      mostrarMensajeHandler();
     }
   };
 
@@ -349,6 +368,13 @@ function NuevoEmpleado() {
             </button>
           </form>
         </div>
+        {mensaje && mostrarMensaje && (
+          <Mensaje
+            mensaje={mensaje}
+            tipo={tipoMensaje}
+            onClose={() => setMostrarMensaje(false)}
+          />
+        )}
       </div>
       <Sidebar />
     </div>

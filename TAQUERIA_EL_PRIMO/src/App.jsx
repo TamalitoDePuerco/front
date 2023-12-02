@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import './App.css';
 import Login from './login/login';
 import Menu from './menu/menu';
@@ -13,7 +13,7 @@ function App() {
   const token = localStorage.getItem('token');
 
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route exac path="/" element={<Login />} />
         <Route element={<ProtectedRoute token={token}/>}>
@@ -24,7 +24,7 @@ function App() {
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

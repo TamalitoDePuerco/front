@@ -1,0 +1,29 @@
+.mensaje-slide-in {
+    animation: slideInMensaje 0.3s ease-in-out;
+    z-index: 5;
+  }
+  
+  @keyframes slideInMensaje {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  .mensaje-slide-out {
+    animation: slideOutMensaje 0.3s ease-in-out;
+    z-index: 5;
+  }
+
+  @keyframes slideOutMensaje {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  

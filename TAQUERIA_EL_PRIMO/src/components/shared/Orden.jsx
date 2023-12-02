@@ -39,7 +39,8 @@ function Orden({ ordenes, setOrdenes }) {
           ))}
         </div>
       </section>
-      <button type="button" className="bg-red-500 text-white p-2 rounded-xl w-2/6 fixed-bottom">Ordenar</button>
+      <button type="button" className="bg-red-500 text-white p-2 rounded-xl w-2/6 fixed-bottom-ordenar">Ordenar</button>
+      <button type="button" className="bg-red-500 text-white p-2 rounded-xl w-2/6 fixed-bottom-finalizar-pedido">Finalizar pedido del cliente</button>
     </section>
   );
 }

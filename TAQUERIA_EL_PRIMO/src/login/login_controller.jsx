@@ -14,14 +14,12 @@ async function LoginAuth(formData, navigate) {
 
     if (response.ok) {
       const data = await response.json();
-
-      // Almacenar el token en el almacenamiento local
       localStorage.setItem('token', data.token);
       navigate("/menu");
 
-      return data; // Devolver la información del token y su expiración
+      return data;
     } else {
-      const errorData = await response.json(); // Obtener detalles del error
+      const errorData = await response.json();
       console.error(`Error al iniciar sesión: ${errorData.message || 'Error desconocido'}`);
       throw new Error(errorData.message || 'Error desconocido');
     }

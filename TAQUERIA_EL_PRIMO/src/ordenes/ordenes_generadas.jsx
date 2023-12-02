@@ -29,7 +29,7 @@ function OrdenesGeneradas() {
               return (
                 <div
                   key={key}
-                  className={`h-80 text-center flex flex-col items-center justify-center dashed-border shadow-2xl ${statusColorClass}`}
+                  className={`h-80 text-center flex flex-col items-center justify-center dashed-border shadow-xl ${statusColorClass}`}
                   style={{ whiteSpace: "pre-line" }}
                 >
                   <h1 className="font-bold">{val.title}</h1>

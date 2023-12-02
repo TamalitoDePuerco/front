@@ -33,12 +33,10 @@ function Login() {
 
     try {
       const data = await LoginAuth(formData, navigate);
-      // Guardar el token y la fecha de expiración en el localStorage
       localStorage.setItem("token", data.access_token);
       const expirationTime = new Date().getTime() + data.expires_in * 1000;
       localStorage.setItem("tokenExpiration", expirationTime);
       console.log(data);
-      // Redirigir a la página protegida después del inicio de sesión
       navigate("/menu");
     } catch (error) {
       console.error("Error al iniciar sesión", error);
