@@ -51,7 +51,7 @@ const Inventario = () => {
   const getLista = async (fecha) => {
     try {
       const response = await MostrarInventario({ fecha });
-
+      console.log(fecha);
       if (response && response["data:"]) {
         setDatosInventario(response["data:"]);
       } else {
@@ -112,6 +112,7 @@ const Inventario = () => {
 
   const SeleccionarFecha = (fechaSeleccionada) => {
     setFecha(fechaSeleccionada);
+    console.log(fecha)
   };
 
   const EditarCampos = (id) => {

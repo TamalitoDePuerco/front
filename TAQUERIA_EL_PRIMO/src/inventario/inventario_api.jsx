@@ -10,6 +10,8 @@ async function MostrarInventario({ fecha }) {
   const fechaMazatlan = utcToZonedTime(fecha, 'America/Mazatlan');
   const formattedFecha = format(fechaMazatlan, 'yyyy-MM-dd', { locale: es });
 
+  console.log(formattedFecha);
+  console.log(formattedFecha);
   try {
     const response = await fetch(`${baseURL}/api/inventario/index`, {
       method: "POST",
@@ -66,7 +68,6 @@ async function FinalizarInventario(fecha) {
   const token = localStorage.getItem("token");
   const fechaMazatlan = utcToZonedTime(fecha, 'America/Mazatlan');
   const formattedFecha = format(fechaMazatlan, 'yyyy-MM-dd', { locale: es });
-
 
   try {
     const response = await fetch(`${baseURL}/api/inventario/nuevo`, {

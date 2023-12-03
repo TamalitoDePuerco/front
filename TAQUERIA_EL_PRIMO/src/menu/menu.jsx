@@ -10,26 +10,33 @@ import {
 import "../components/shared/Modal.css";
 import Modal from "../components/shared/Modal.jsx";
 import "../menu/menu.css";
+import { ObtenerProductos } from "./menu_api.jsx";
 
 function Menu() {
+  const [productos, setProductos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedImg, setSelectedImg] = useState("");
-  const [selectedIngredientes, setSelectedIngredientes] = useState("");
+  const [selectedProductos, setSelectedProductos] = useState("");
   const [isOrdenVisible, setIsOrdenVisible] = useState(true);
   const [ordenes, setOrdenes] = useState([]);
 
-  const openModal = (title, img, ingredientes) => {
+  const openModal = async (title, img, ingredientes) => {
     if (title === "Agua" || title === "Salchicha" || title === "Carne Asada") {
       handleAguaClick();
     } else {
-      setSelectedTitle(title);
-      setSelectedImg(img);
-      setSelectedIngredientes(ingredientes);
-      setIsModalOpen(true);
+      try {
+        const data = await ObtenerProductos(title);
+        setSelectedTitle(title);
+        setSelectedImg(img);
+        setSelectedProductos(data);
+        setIsModalOpen(true);
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
     }
   };
-
+  
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -94,7 +101,7 @@ function Menu() {
               closeModal={closeModal}
               selectedTitle={selectedTitle}
               selectedImg={selectedImg}
-              ingredientes={selectedIngredientes}
+              productos={selectedProductos.data}
               addToOrder={addToOrder}
             />
           )}
