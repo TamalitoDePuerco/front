@@ -20,13 +20,15 @@ function OrdenesGeneradas() {
           setUserClaims(decodedToken.payload);
           console.log("Rol del usuario:", decodedToken.payload?.rol);
 
-          if (decodedToken.payload?.rol === "Mesero" || decodedToken.payload?.rol === "Admin") {
-            console.log("SOYMESEROOOOO")
+          if (
+            decodedToken.payload?.rol === "Mesero" ||
+            decodedToken.payload?.rol === "Admin"
+          ) {
+            console.log("SOYMESEROOOOO");
             response = await MostrarOrdenesMesero();
           } else if (decodedToken.payload?.rol === "Cocina") {
-            console.log("SOYCOCINEROOOOO")
+            console.log("SOYCOCINEROOOOO");
             response = await MostrarOrdenesCocinero();
-
           } else {
             console.error("Rol de usuario no reconocido");
             return;
@@ -43,6 +45,16 @@ function OrdenesGeneradas() {
     fetchOrdenes();
   }, []);
 
+  // Group orders by "mesa" value
+  const groupedOrdenesData = {};
+  ordenesData.forEach((val) => {
+    const mesa = val.mesa;
+    if (!groupedOrdenesData[mesa]) {
+      groupedOrdenesData[mesa] = [];
+    }
+    groupedOrdenesData[mesa].push(val);
+  });
+
   const getOrdenStatusColor = (status) => {
     switch (status) {
       case "activo":
@@ -55,7 +67,7 @@ function OrdenesGeneradas() {
   };
 
   function decodeJwt(token) {
-    const [header, payload, signature] = token.split('.');
+    const [header, payload, signature] = token.split(".");
     const decodedHeader = atob(header);
     const decodedPayload = atob(payload);
     const headerObj = JSON.parse(decodedHeader);
@@ -81,31 +93,28 @@ function OrdenesGeneradas() {
       <section className="flex-1 pt-7 pr-7 pb-7 overflow-y-auto">
         <section className="h-full rounded-xl text-center flex flex-col items-center justify-center">
           <h1 className="p-4 font-bold text-2xl">Ordenes</h1>
-          <section className="grid grid-cols-1 md:grid-rows-6 md:grid-cols-6 gap-8 w-full">
-            {Array.isArray(ordenesData) && ordenesData.length > 0 ? (
-              ordenesData.map((val, key) => {
-                const statusColorClass = getOrdenStatusColor(val.estatus);
-                return (
-                  <div
-                    key={key}
-                    className={`h-80 text-center flex flex-col items-center justify-center dashed-border shadow-xl ${statusColorClass}`}
-                    style={{ whiteSpace: "pre-line" }}
-                    onClick={() => handleOrdenClick(val)}
-                  >
-                    <h1 className="font-bold">{val.nombre}</h1>
-                    <p>Mesa: {val.mesa}</p>
+          <section className="grid grid-cols-1 md:grid-rows-6 md:grid-cols-3 gap-8 w-full">
+            {Object.entries(groupedOrdenesData).map(([mesa, orders], groupIndex) => (
+              <div
+                key={groupIndex}
+                className={`h-auto text-center flex flex-col items-center justify-center dashed-border shadow-xl ${getOrdenStatusColor(orders[0]?.estatus)}`}
+                style={{ whiteSpace: "pre-line" }}
+                onClick={() => handleOrdenClick(orders[0])}
+              >
+                <h1 className="font-bold">Mesa {mesa}</h1>
+                {orders.map((val, orderIndex) => (
+                  <div key={orderIndex} className="flex flex-col">
+                    <p>Nombre: {val.nombre}</p>
                     <p>Platillo: {val.platillo}</p>
                     <p>Cantidad: {val.cantidad}</p>
                   </div>
-                );
-              })
-            ) : (
-              <p>No hay órdenes disponibles.</p>
-            )}
+                ))}
+              </div>
+            ))}
           </section>
         </section>
       </section>
-
+  
       {selectedOrden && (
         <OrdenModal
           isOpen={modalIsOpen}
