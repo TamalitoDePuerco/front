@@ -13,16 +13,16 @@ import "../menu/menu.css";
 import { ObtenerProductos } from "./menu_api.jsx";
 
 function Menu() {
-  const [productos, setProductos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedImg, setSelectedImg] = useState("");
   const [selectedProductos, setSelectedProductos] = useState("");
   const [isOrdenVisible, setIsOrdenVisible] = useState(true);
   const [ordenes, setOrdenes] = useState([]);
+  const [selectedIngredientes, setSelectedIngredientes] = useState("");
 
   const openModal = async (title, img, ingredientes) => {
-    if (title === "Agua" || title === "Salchicha" || title === "Carne Asada") {
+    if (title === "Agua") {
       handleAguaClick();
     } else {
       try {
@@ -30,13 +30,14 @@ function Menu() {
         setSelectedTitle(title);
         setSelectedImg(img);
         setSelectedProductos(data);
+        setSelectedIngredientes(ingredientes);
         setIsModalOpen(true);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
     }
   };
-  
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -46,9 +47,7 @@ function Menu() {
   };
 
   const handleAguaClick = () => {
-    // Lógica específica para "Agua"
     console.log("Click en Agua");
-    // Puedes agregar más lógica según tus necesidades
   };
 
   const addToOrder = (nuevaOrden) => {
@@ -102,6 +101,7 @@ function Menu() {
               selectedTitle={selectedTitle}
               selectedImg={selectedImg}
               productos={selectedProductos.data}
+              ingredientes={selectedIngredientes}
               addToOrder={addToOrder}
             />
           )}
@@ -158,9 +158,11 @@ function Menu() {
             )}
           </button>
           <h1 className="text-center font-bold text-2xl p-6">Orden</h1>
-          <Orden ordenes={ordenes} setOrdenes={setOrdenes} />
+          <Orden ordenes={ordenes} setOrdenes={setOrdenes}  />
+          
         </div>
       </div>
+      
     </div>
   );
 }

@@ -10,7 +10,7 @@
 .fixed-top {
   position: fixed;
   top: 110px;
-  width: 90%;
+  width: 50%;
   margin-left: 0%;
   margin-right: 25%;
 }
@@ -31,6 +31,7 @@
 
 .padding-mesa{
     padding-left: 4%;
+    width: 95%;
 }
 
 .altura-x-items{ 

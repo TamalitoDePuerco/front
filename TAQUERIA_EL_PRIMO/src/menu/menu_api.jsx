@@ -58,6 +58,37 @@ async function IniciarOrden(idUsuario, fecha, estatus, mesa) {
       throw new Error(`Error al iniciar la orden: ${error.message}`);
     }
   }
+
+  async function Ordenar(ordenData) {
+    const baseURL = apiConfig.getBaseUrl();
+    const token = localStorage.getItem("token");
+
   
-  export { ObtenerProductos, IniciarOrden };
+    try {
+      const response = await fetch(`${baseURL}/api/orden_detalle/store`, {
+        method: "POST",
+        headers: {
+         "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(ordenData),
+
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("JALA", data)
+        return data;
+      } else {
+        const errorData = await response.json();
+        console.log("Objeto con clave 'ordenes' enviado a Ordenar, estoy en Ordenar:", JSON.stringify(ordenData, null, 2));
+        throw new Error(errorData.message || "Error al Ordenar");
+      }
+    } catch (error) {
+      console.log("Objeto con clave 'ordenes' enviado a Ordenar, estoy en Ordenar:", JSON.stringify(ordenData, null, 2));
+      throw new Error(`Error al Ordenar: ${error.message}`);
+    }
+  }
+  
+  export { ObtenerProductos, IniciarOrden, Ordenar};
   
