@@ -51,7 +51,6 @@ const Inventario = () => {
   const getLista = async (fecha) => {
     try {
       const response = await MostrarInventario({ fecha });
-      console.log(fecha);
       if (response && response["data:"]) {
         setDatosInventario(response["data:"]);
       } else {
@@ -65,23 +64,36 @@ const Inventario = () => {
     }
   };
 
-  const updateProducto = async () => {
+  const updateProducto = async (habia) => {
     try {
       const id = editarFilaId;
-      const datos = {
-        habia: "5.00",
+      const nuevosValores = {
+        habia: habia,
         entro: editarValores.entro,
         quedo: editarValores.quedo,
         precio: editarValores.precio,
       };
 
-      const response = await EditarInventario(id, datos);
+      if (
+        parseFloat(nuevosValores.habia) +
+          parseFloat(nuevosValores.entro) <
+        parseFloat(nuevosValores.quedo)
+      ) {
+        setMensaje(
+          "Los valores no son permitidos. Verifica habia, entro y quedo."
+        );
+        setTipoMensaje("error");
+        mostrarMensajeHandler();
+        return;
+      }
+
+      const response = await EditarInventario(id, nuevosValores);
       getLista(fecha);
       setMensaje("Producto actualizado correctamente");
       setTipoMensaje("success");
       mostrarMensajeHandler();
     } catch (error) {
-      console.error("Valimos verga", error);
+      console.error("Error al actualizar el producto", error);
       setMensaje("Error al actualizar el producto");
       setTipoMensaje("error");
       mostrarMensajeHandler();
@@ -112,7 +124,6 @@ const Inventario = () => {
 
   const SeleccionarFecha = (fechaSeleccionada) => {
     setFecha(fechaSeleccionada);
-    console.log(fecha)
   };
 
   const EditarCampos = (id) => {
@@ -125,8 +136,8 @@ const Inventario = () => {
     });
   };
 
-  const BotonGuardar = () => {
-    updateProducto();
+  const BotonGuardar = (habia) => {
+    updateProducto(habia);
   };
 
   const BotonCancelar = () => {
@@ -162,7 +173,18 @@ const Inventario = () => {
             {datosInventario.map((data) => (
               <tr key={data.id}>
                 <td className="w-1/12">{data.nombre}</td>
-                <td className="w-1/12">{data.habia}</td>
+                <td className="w-1/12">
+                  {editarFilaId === data.id ? (
+                    <input
+                      type="text"
+                      value={data.habia}
+                      disabled={true}
+                      className="w-10/12 text-center"
+                    />
+                  ) : (
+                    data.habia
+                  )}
+                </td>
                 <td className="w-1/12">
                   {editarFilaId === data.id ? (
                     <input
@@ -227,7 +249,7 @@ const Inventario = () => {
                 <td className="w-2/12">
                   {editarFilaId === data.id ? (
                     <>
-                      <button onClick={BotonGuardar}>
+                      <button onClick={() => BotonGuardar(data.habia)}>
                         <FaRegSave size="26px" className="mr-10" />
                       </button>
                       <button onClick={BotonCancelar}>
@@ -254,7 +276,9 @@ const Inventario = () => {
           onClick={finalizarInventario}
           disabled={finalizarInventarioLoading}
         >
-          {finalizarInventarioLoading ? "Cargando..." : "Finalizar inventario"}
+          {finalizarInventarioLoading
+            ? "Cargando..."
+            : "Finalizar inventario"}
         </button>
 
         {mensaje && mostrarMensaje && (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/shared/Siderbar.jsx";
 import Orden from "../components/shared/Orden";
 import { HiPlus } from "react-icons/hi";
@@ -20,6 +20,14 @@ function Menu() {
   const [isOrdenVisible, setIsOrdenVisible] = useState(true);
   const [ordenes, setOrdenes] = useState([]);
   const [selectedIngredientes, setSelectedIngredientes] = useState("");
+  const iniciado = localStorage.getItem("iniciado");
+  console.log("Iniciado o no", iniciado);
+
+  useEffect(() => {
+    if (iniciado === "iniciado") {
+      localStorage.removeItem("iniciado");
+    }
+  }, []);
 
   const openModal = async (title, img, ingredientes) => {
     if (title === "Agua") {
@@ -81,14 +89,16 @@ function Menu() {
                   <button
                     type="button"
                     onClick={() =>
-                      openModal(val.title, val.img, val.ingredientes)
+                      iniciado === "iniciado" ? openModal(val.title, val.img, val.ingredientes) : null
                     }
                     className="p-2"
                   >
                     <HiPlus
                       size="26px"
                       color="#FFF"
-                      className="bg-red-500 w-9 h-9 rounded-md"
+                      className={`bg-red-500 w-9 h-9 rounded-md ${
+                        iniciado === null && "cursor-not-allowed"
+                      }`}
                     />
                   </button>
                 </div>
@@ -120,16 +130,20 @@ function Menu() {
                     alt={val.title}
                   ></img>
                   <button
+                  id="add"
                     type="button"
                     onClick={() =>
-                      openModal(val.title, val.img, val.ingredientes)
+                      iniciado === "iniciado" ? openModal(val.title, val.img, val.ingredientes) : null
                     }
                     className="p-2"
+                    disabled={iniciado === null}
                   >
                     <HiPlus
                       size="26px"
                       color="#FFF"
-                      className="bg-red-500 w-9 h-9 rounded-md"
+                      className={`bg-red-500 w-9 h-9 rounded-md ${
+                        iniciado === null && "cursor-not-allowed"
+                      }`}
                     />
                   </button>
                 </div>

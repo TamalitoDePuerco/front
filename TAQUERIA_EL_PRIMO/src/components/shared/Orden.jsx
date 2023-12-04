@@ -86,12 +86,14 @@ const Orden = ({ ordenes, setOrdenes, manejarMensajeOrden }) => {
       if (response.success) {
         const orderId = response.data?.data?.id;
         const mesa = response.data?.data?.mesa;
+        const iniciado = "iniciado";        
         setOrdenIniciada(true);
         setCurrentOrderId(orderId);
         console.log("JALOOOOO", orderId);
         console.log("AVEEEEER", response.data?.data?.mesa);
         localStorage.setItem("id_orden", orderId);
         localStorage.setItem("mesa", mesa);
+        localStorage.setItem("iniciado", iniciado);
         setMensajeOrden("Orden Iniciada");
         setTipoMensajeOrden("success");
         setOrdenes([]);
@@ -127,6 +129,7 @@ const Orden = ({ ordenes, setOrdenes, manejarMensajeOrden }) => {
         setMensajeOrden("Orden realizada con éxito");
         setTipoMensajeOrden("success");
         localStorage.removeItem("id_orden");
+        localStorage.removeItem("iniciado");
       } else {
         setMensajeOrden(
           resultadoOrdenar.data?.message || "Error al Ordenar"
