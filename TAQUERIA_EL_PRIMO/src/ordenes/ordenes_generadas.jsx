@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Sidebar from "../components/shared/Siderbar";
 import OrdenModal from "./modal_ordenes_acciones";
-import { MostrarOrdenesMesero, MostrarOrdenesCocinero, Servido, Eliminar, Cuenta } from "./ordenes_api";
+import {
+  MostrarOrdenesMesero,
+  MostrarOrdenesCocinero,
+  Servido,
+  Eliminar,
+  Cuenta,
+} from "./ordenes_api";
+import Recibo from "./recibo";
 
 function OrdenesGeneradas() {
   const [ordenesData, setOrdenesData] = useState([]);
@@ -10,6 +17,8 @@ function OrdenesGeneradas() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedOrden, setSelectedOrden] = useState(null);
   const [ordenesActualizadas, setOrdenesActualizadas] = useState(false);
+  const [reciboData, setReciboData] = useState([]);
+  const [showRecibo, setShowRecibo] = useState(false);
 
   useEffect(() => {
     async function fetchOrdenes() {
@@ -37,7 +46,7 @@ function OrdenesGeneradas() {
           }
 
           setOrdenesData(response["data:"]);
-          setOrdenesActualizadas(false); 
+          setOrdenesActualizadas(false);
           console.log(response["data:"]);
         } catch (error) {
           console.error("Error decoding token:", error);
@@ -46,7 +55,7 @@ function OrdenesGeneradas() {
     }
 
     fetchOrdenes();
-  }, [ordenesActualizadas]); 
+  }, [ordenesActualizadas]);
 
   const groupedOrdenesData = {};
   ordenesData.forEach((val) => {
@@ -85,6 +94,26 @@ function OrdenesGeneradas() {
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const handleCuentaClick = async () => {
+    try {
+      const reciboData = await Cuenta(selectedOrden.id);
+      setOrdenesActualizadas(true);
+
+      // Agrega el componente Recibo con los datos recibidos
+      setReciboData(reciboData["data:"]);
+      setShowRecibo(true);
+
+      // Cierra el modal
+      closeModal();
+    } catch (error) {
+      console.error("recibo generado:", error);
+    }
+  };
+
+  const handleCloseRecibo = () => {
+    setShowRecibo(false);
   };
 
   return (
@@ -132,7 +161,7 @@ function OrdenesGeneradas() {
             try {
               await Servido(selectedOrden.id);
               console.log("La orden se ha marcado como servida");
-              setOrdenesActualizadas(true); 
+              setOrdenesActualizadas(true);
             } catch (error) {
               console.error("Error al marcar la orden como servida:", error);
             }
@@ -142,23 +171,15 @@ function OrdenesGeneradas() {
             try {
               await Eliminar(selectedOrden.id);
               console.log("La orden se ha marcado como ELIMINADA");
-              setOrdenesActualizadas(true); 
+              setOrdenesActualizadas(true);
             } catch (error) {
               console.error("Error al marcar la orden como ELIMINADA:", error);
             }
           }}
-          onCuentaClick={async () => {
-            console.log("cuenta: ");
-            try {
-              await Cuenta(selectedOrden.id);
-              console.log("Se saco la cuenta");
-              setOrdenesActualizadas(true); 
-            } catch (error) {
-              console.error("Error al marcar la orden como Finalizada:", error);
-            }
-          }}
+          onCuentaClick={handleCuentaClick}
         />
       )}
+        {showRecibo && <Recibo datosRecibo={reciboData} onClose={handleCloseRecibo}/>} 
     </div>
   );
 }

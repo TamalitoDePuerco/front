@@ -20,6 +20,7 @@ function OrdenModal({ isOpen, closeModal, orden, onServidoClick, onEliminarClick
   const handleCuentaClick = async () => {
     onCuentaClick();
     closeModal();
+
   };
 
   return (
@@ -32,17 +33,16 @@ function OrdenModal({ isOpen, closeModal, orden, onServidoClick, onEliminarClick
           <RxCross2 />
         </span>
 
-        <h1 className="font-bold mt-6">Orden: {orden.id}</h1>
-        <p className="font-bold">Mesa: {orden.mesa}</p>
-        <h2 className="font-bold mt-3">{orden.nombre} . . . . . {orden.cantidad}</h2>
+        <h1 className="font-bold mt-6 text-3xl">Orden: {orden.id}</h1>
+        <p className="font-bold text-3xl">Mesa: {orden.mesa}</p>
 
         <button
-          className="bg-red-500 text-white p-2 rounded-xl mt-10"
+          className="bg-red-500 text-white p-2 rounded-xl mt-10 text-3xl"
           onClick={handleServidoClick}
         >
           Servido
         </button>
-        <button className="bg-red-500 text-white p-2 rounded-xl ml-3 mr-4"
+        <button className="bg-red-500 text-white p-2 rounded-xl ml-3 mr-4 text-3xl"
         onClick={handleCuentaClick}>Finalizar</button>
 
       </div>

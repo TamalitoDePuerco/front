@@ -138,13 +138,13 @@ async function Cuenta(id_orden) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id:id_orden }),
+        body: JSON.stringify({ orden:id_orden }),
       }
     );
 
     if(response.ok){
       const data = await response.json();
-      console.log(data);
+      console.log("recibo generado", data)
       return data;
     } else {
       const errorData = await response.json();
