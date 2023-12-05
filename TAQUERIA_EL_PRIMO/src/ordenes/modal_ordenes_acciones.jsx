@@ -2,15 +2,22 @@ import React from "react";
 import { RxCross2 } from "react-icons/rx";
 import "./modal_ordenes.css";
 
-function OrdenModal({ isOpen, closeModal, orden }) {
+function OrdenModal({ isOpen, closeModal, orden, onServidoClick, onEliminarClick }) {
   if (!isOpen) {
     return null;
   }
 
-  return renderModal(orden, closeModal);
-}
+  const handleServidoClick = async () => {
+    onServidoClick();
+    closeModal();
+  };
 
-function renderModal(orden, closeModal) {
+  const handleEliminarClick = async () => {
+    onEliminarClick();
+    closeModal();
+  };
+
+
   return (
     <div className="modal">
       <div className="modal-content bg-white h-1/2 w-1/3 text-center relative">
@@ -25,9 +32,15 @@ function renderModal(orden, closeModal) {
         <p className="font-bold">Mesa: {orden.mesa}</p>
         <p className="font-bold">Platillo: {orden.platillo}</p>
         <p className="font-bold">Cantidad: {orden.cantidad}</p>
-        <button className="bg-red-500 text-white p-2 rounded-xl mt-10">Servido</button>
+        <button
+          className="bg-red-500 text-white p-2 rounded-xl mt-10"
+          onClick={handleServidoClick}
+        >
+          Servido
+        </button>
         <button className="bg-red-500 text-white p-2 rounded-xl ml-3 mr-4">Editar</button>
-        <button className="bg-red-500 text-white p-2 rounded-xl">Eliminar</button>
+        <button className="bg-red-500 text-white p-2 rounded-xl"
+        onClick={handleEliminarClick}>Eliminar</button>
       </div>
     </div>
   );
