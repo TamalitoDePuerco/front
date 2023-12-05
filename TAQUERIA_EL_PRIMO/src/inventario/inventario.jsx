@@ -18,10 +18,10 @@ const TableHead = () => (
   <thead className="bg-gray-300 h-14">
     <tr>
       <th className="w-1/4 ">Producto</th>
-      <th>Habia</th>
-      <th>Entro</th>
-      <th>Quedo</th>
-      <th>Gasto</th>
+      <th>Había</th>
+      <th>Entró</th>
+      <th>Quedó</th>
+      <th>Gastó</th>
       <th>Precio</th>
       <th className="">Modificar</th>
     </tr>

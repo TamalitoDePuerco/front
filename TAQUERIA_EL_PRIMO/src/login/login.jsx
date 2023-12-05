@@ -8,6 +8,8 @@ import { AiOutlineLock, AiOutlineMail } from "react-icons/ai";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [userClaims, setUserClaims] = useState(null);
+
   const [validacionError, setValidacionError] = useState({
     email: false,
     password: false,
@@ -31,13 +33,38 @@ function Login() {
       return;
     }
 
+
     try {
-      const data = await LoginAuth(formData, navigate);
+      const data = await LoginAuth(formData);
       localStorage.setItem("token", data.access_token);
       const expirationTime = new Date().getTime() + data.expires_in * 1000;
       localStorage.setItem("tokenExpiration", expirationTime);
       console.log(data);
-      navigate("/menu");
+
+      const token = localStorage.getItem("token");
+
+      if(token){
+        try {
+          const decodedToken = decodeJwt(token);
+          setUserClaims(decodedToken.payload);
+          console.log("ROl", decodedToken.payload?.rol);
+
+          if(decodedToken.payload?.rol === "Cocina"){
+            setTimeout(() => {
+              navigate("/ordenes");
+            }, 2000);
+          }else{
+            setTimeout(() => {
+              navigate("/menu");
+            }, 2000);  
+          }
+        } catch (error) {
+          setTimeout(() => {
+            navigate("/menu");
+          }, 2000);  
+          console.error("Error decoding token:", error);
+        }
+      }
     } catch (error) {
       console.error("Error al iniciar sesión", error);
       if (error.message === "Error desconocido") {
@@ -50,6 +77,14 @@ function Login() {
     }
   };
 
+  function decodeJwt(token) {
+    const [header, payload, signature] = token.split(".");
+    const decodedHeader = atob(header);
+    const decodedPayload = atob(payload);
+    const headerObj = JSON.parse(decodedHeader);
+    const payloadObj = JSON.parse(decodedPayload);
+    return { header: headerObj, payload: payloadObj, signature };
+  }
   const [contrasenaVisible, setContrasenaVisible] = useState(false);
 
   function verContrasena() {

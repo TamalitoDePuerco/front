@@ -1,6 +1,6 @@
 import apiConfig from "../api/apiConfig";
 
-async function LoginAuth(formData, navigate) {
+async function LoginAuth(formData) {
   const baseURL = apiConfig.getBaseUrl();
 
   try {
@@ -15,7 +15,6 @@ async function LoginAuth(formData, navigate) {
     if (response.ok) {
       const data = await response.json();
       localStorage.setItem('token', data.token);
-      navigate("/menu");
 
       return data;
     } else {
