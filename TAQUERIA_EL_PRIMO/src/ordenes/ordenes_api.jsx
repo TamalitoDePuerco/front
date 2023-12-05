@@ -125,5 +125,36 @@ async function Eliminar(id) {
   }
 }
 
+async function Cuenta(id_orden) {
+  const baseURL = apiConfig.getBaseUrl();
+  const token = localStorage.getItem("token");
 
-export { MostrarOrdenesMesero, MostrarOrdenesCocinero, Servido, Eliminar };
+  try {
+    const response = await fetch(
+      `${baseURL}/api/orden_detalle/cuenta`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id:id_orden }),
+      }
+    );
+
+    if(response.ok){
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } else {
+      const errorData = await response.json();
+      console.error(`Error sacar la cuenta de la orden: ${errorData.message || "Error desconocido"}`);
+      throw new Error(errorData.message || "Error desconocido");
+    }
+  } catch (error) {
+    console.error(`Error sacar la cuenta de la orden: ${error || "Error desconocido"}`);
+    throw new Error(error || "Error desconocido");
+  }
+}
+
+export { MostrarOrdenesMesero, MostrarOrdenesCocinero, Servido, Eliminar, Cuenta };

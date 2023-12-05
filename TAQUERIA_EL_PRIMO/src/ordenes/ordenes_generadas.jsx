@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Sidebar from "../components/shared/Siderbar";
 import OrdenModal from "./modal_ordenes_acciones";
-import { MostrarOrdenesMesero, MostrarOrdenesCocinero, Servido, Eliminar } from "./ordenes_api";
+import { MostrarOrdenesMesero, MostrarOrdenesCocinero, Servido, Eliminar, Cuenta } from "./ordenes_api";
 
 function OrdenesGeneradas() {
   const [ordenesData, setOrdenesData] = useState([]);
@@ -145,6 +145,16 @@ function OrdenesGeneradas() {
               setOrdenesActualizadas(true); 
             } catch (error) {
               console.error("Error al marcar la orden como ELIMINADA:", error);
+            }
+          }}
+          onCuentaClick={async () => {
+            console.log("cuenta: ");
+            try {
+              await Cuenta(selectedOrden.id);
+              console.log("Se saco la cuenta");
+              setOrdenesActualizadas(true); 
+            } catch (error) {
+              console.error("Error al marcar la orden como Finalizada:", error);
             }
           }}
         />
