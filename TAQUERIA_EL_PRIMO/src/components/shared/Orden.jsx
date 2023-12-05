@@ -130,6 +130,7 @@ const Orden = ({ ordenes, setOrdenes, manejarMensajeOrden }) => {
         setTipoMensajeOrden("success");
         localStorage.removeItem("id_orden");
         localStorage.removeItem("iniciado");
+        location.reload();
       } else {
         setMensajeOrden(
           resultadoOrdenar.data?.message || "Error al Ordenar"

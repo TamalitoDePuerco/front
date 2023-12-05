@@ -9,7 +9,7 @@ function OrdenesGeneradas() {
   const [userClaims, setUserClaims] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedOrden, setSelectedOrden] = useState(null);
-  const [ordenesActualizadas, setOrdenesActualizadas] = useState(false); // Nuevo estado
+  const [ordenesActualizadas, setOrdenesActualizadas] = useState(false);
 
   useEffect(() => {
     async function fetchOrdenes() {
