@@ -33,7 +33,8 @@ function OrdenesGeneradas() {
 
           if (
             decodedToken.payload?.rol === "Mesero" ||
-            decodedToken.payload?.rol === "Admin"
+            decodedToken.payload?.rol === "Admin" ||
+            decodedToken.payload?.rol === "Encargado"
           ) {
             console.log("SOYMESEROOOOO");
             response = await MostrarOrdenesMesero();

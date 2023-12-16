@@ -12,7 +12,7 @@ function Recibo({ datosRecibo, onClose }) {
           <RxCross2 />
         </span>
 
-        <h2 className="font-bold">Recibo de la orden:</h2>
+        <h2 className="font-bold">Cuenta de la orden:</h2>
         {datosRecibo.map((item, index) => (
           <div key={index}>
             <p className="font-bold">{item.cantidad} {item.nombre} . . . . . . ${item.precio}</p>

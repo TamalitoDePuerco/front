@@ -49,8 +49,9 @@ function Sidebar() {
       <ul>
         {SidebarData.map((val, key) => {
           const isVisible =
-            canViewButton(["Admin", "Encargado"]) ||
+            canViewButton(["Admin"]) ||
             (canViewButton(["Mesero"]) && ["menu", "Ordenes"].includes(val.title)) ||
+            (canViewButton(["Encargado"]) && ["menu", "Ordenes", "Inventario"].includes(val.title)) ||
             (canViewButton(["Cocina"]) && val.title === "Ordenes") ||
             val.title === "Cerrar Sesion";
 
